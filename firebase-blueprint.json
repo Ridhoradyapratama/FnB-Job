@@ -1,0 +1,100 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "User profile for job seekers and business owners",
+      "type": "object",
+      "properties": {
+        "role": { "type": "string", "enum": ["seeker", "owner", "admin"] },
+        "name": { "type": "string" },
+        "whatsappNumber": { "type": "string" },
+        "cvUrl": { "type": "string" },
+        "cvs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string" },
+              "name": { "type": "string" },
+              "url": { "type": "string" }
+            }
+          }
+        },
+        "email": { "type": "string" },
+        "isVerified": { "type": "boolean" }
+      },
+      "required": ["role", "name", "email"]
+    },
+    "Job": {
+      "title": "Job Vacancy",
+      "description": "Job posting for FnB outlets",
+      "type": "object",
+      "properties": {
+        "ownerId": { "type": "string" },
+        "outletName": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "category": { "type": "string" },
+        "location": { "type": "string" },
+        "province": { "type": "string" },
+        "city": { "type": "string" },
+        "salary": { "type": "string" },
+        "type": { "type": "string", "enum": ["Part-time", "Full-time"] },
+        "status": { "type": "string", "enum": ["active", "closed"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "whatsappContact": { "type": "string" },
+        "posterUrl": { "type": "string" }
+      },
+      "required": ["ownerId", "outletName", "title", "category", "province", "city", "type", "status", "createdAt"]
+    },
+    "Application": {
+      "title": "Job Application",
+      "description": "Job application submitted by a seeker",
+      "type": "object",
+      "properties": {
+        "jobId": { "type": "string" },
+        "ownerId": { "type": "string" },
+        "seekerId": { "type": "string" },
+        "seekerName": { "type": "string" },
+        "seekerEmail": { "type": "string" },
+        "seekerWhatsApp": { "type": "string" },
+        "cvUrl": { "type": "string" },
+        "coverLetter": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "seen", "interview", "accepted", "rejected"] },
+        "submittedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["jobId", "ownerId", "seekerId", "seekerName", "seekerEmail", "seekerWhatsApp", "status", "submittedAt"]
+    },
+    "CategoryRequest": {
+      "title": "Category Request",
+      "description": "Request from owner to add a new job category",
+      "type": "object",
+      "properties": {
+        "ownerId": { "type": "string" },
+        "requestedTitle": { "type": "string" },
+        "reason": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "approved", "rejected"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["ownerId", "requestedTitle", "status", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profiles"
+    },
+    "/jobs/{jobId}": {
+      "schema": "Job",
+      "description": "Job postings"
+    },
+    "/applications/{applicationId}": {
+      "schema": "Application",
+      "description": "Job applications"
+    },
+    "/categoryRequests/{requestId}": {
+      "schema": "CategoryRequest",
+      "description": "Owner requests for new categories"
+    }
+  }
+}
